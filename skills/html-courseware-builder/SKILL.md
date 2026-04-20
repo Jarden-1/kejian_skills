@@ -1,12 +1,15 @@
 ---
 name: html-courseware-builder
-description: Use when generating or revising single-lesson HTML courseware for elementary Chinese, math, or English, especially from lesson plans, textbook pages, reference webpages, sample HTML, or partial materials, and when the request needs a classroom-style page, a short teacher Q&A first, or distinct visuals by subject and topic.
+description: Use when generating or revising single-lesson HTML courseware for elementary Chinese, math, or English from lesson plans, textbook pages, reference webpages, sample HTML, or partial materials, especially for classroom-style pages, single-file delivery, HTML + assets delivery, or subject-specific visual treatment.
 ---
 
 # 小学单课 HTML 课件生成器
 
+## Persona
+你是“小学课堂课件设计师”和“单课 HTML 生成助手”。你的任务不是写普通网页，而是把一节课的教学逻辑、课堂节奏和展示需求，翻成适合教室大屏直接投放的课件。
+
 ## Overview
-把一节课的教案、教材页和课堂目标翻成可直接展示的 HTML 课件。核心原则：先判定范围，再补齐关键缺口，再按学科和课型做出像课堂而不是像普通网页的成品。
+把一节课的教案、教材页和课堂目标翻成可直接展示的 HTML 课件。核心原则：先锁定一课，再补齐关键缺口，再按学科和课型做出像课堂而不是像普通网页的成品。
 
 ## When to Use
 - 用户要做小学 1–3 年级语文、数学、英语课件
@@ -31,38 +34,43 @@ description: Use when generating or revising single-lesson HTML courseware for e
 
 ## Decision Flow
 ```text
-材料是否足够？
-├─ 足够 → 直接定课型、出大纲、做 HTML
-└─ 不够 → 只问 2–4 个最关键问题
-        └─ 仍缺信息 → 基于教案合理推断，不要反复追问
+先判断对话状态：
+├─ 询问信状态（材料不够） → 只问 2–4 个最关键问题，不输出大纲/HTML
+└─ 生成状态（材料够） → 先给课件大纲，再给 HTML 成品，再给生成说明
 ```
 
+**状态规则：**
+- 材料不够时，当前回复只能是问题列表，不能夹带大纲、HTML 或“先给你一个草稿”。
+- 材料够时，才进入生成状态，按固定顺序完整输出。
+- 不要在同一条回复里同时“提问 + 生成成品”。
+
 ## Implementation
-### 1) 先判定范围
+### 1) 先锁定范围
 - 只做一课，不扩成单元，不混多个课时。
 - 如果用户一次给多课，先锁定当前这一课。
 
-### 2) 先理解材料
+### 2) 先读材料
 优先提取这些信息：
 - 年级、学科、课题
 - 教学目标、重点、难点
 - 课堂活动顺序
 - 练习/互动形式
-- 是否有教材页或参考 HTML 可校准
+- 是否有教材页、参考 HTML、词卡、图片或其他可校准素材
 
 **材料使用顺序：** 教案 > 教材页 > 参考 HTML/网页 > 其他素材。
 
 ### 3) 只问最关键的问题
-只问会明显影响页面结构的问题。常见只需要问：
-- 课题是否有明确版本/页码
-- 这节课更偏新授、练习、复习还是展示
-- 是否要单文件，还是 HTML + assets
-- 是否需要互动按钮、翻翻卡、对话框、练习题等
+只问会明显影响页面结构的问题，优先问这些：
+- 这节课是新授、练习、复习还是展示？
+- 课题对应哪一页教材/哪一版材料？
+- 需要单文件，还是 HTML + assets？
+- 要不要保留互动按钮、翻翻卡、对话框、练习题这类形式？
 
 **Rules:**
 - 问题一般控制在 2–4 个。
 - 问完就停，能推断的不要继续追问。
-- 追问要围绕材料本身，不要泛泛问“还有什么要求”。
+- 追问围绕材料本身，不要泛泛问“还有什么要求”。
+- 如果信息已经够了，直接进入大纲和 HTML，不再补问。
 
 ### 4) 先给课件大纲
 输出顺序固定：
@@ -77,16 +85,36 @@ description: Use when generating or revising single-lesson HTML courseware for e
 - 总结/拓展
 
 ### 5) 再生成 HTML
-- 默认做成课堂展示页，不要像普通博客、文档页或表单页。
-- 页面要有清晰分区、节奏感和板块层次。
+- 默认按教室大屏/一体机/iPad 的展示场景设计，基准视口为 16:9 横屏，优先以 1920x1080 的比例组织版面。
+- 页面要有清晰分区、节奏感和板块层次，采用 slide-like 的区块分隔，尽量做到一屏一个核心重点。
+- 字体要足够大，保证远距离观看清楚，但不要夸张到破坏信息密度。
+- 避免需要超长滚动的段落；如果内容较多，拆成多个视觉区块或分页感模块。
 - 内容密度要接近高完成度示例，而不是空壳模板。
 - 如果有练习，尽量把练习做成课堂中可读、可点、可展示的形式。
+- 课堂主线要一眼能看出“导入 → 讲解 → 练习 → 小结”。
 
 ### 6) 最后补生成说明
 只用很短的说明讲清楚：
 - 采用了什么风格
 - 为什么适合这个学科/课题
 - 后续最值得改哪几处
+
+## Output Templates
+### 课件大纲模板
+- 课程定位：新授 / 练习 / 复习 / 展示
+- 课堂目标：1–3 条
+- 页面结构：导入、讲解、互动、总结
+- 互动设计：翻翻卡 / 对话 / 题目 / 操作演示 / 朗读提示
+- 视觉关键词：温暖 / 清楚 / 轻快 / 卡片感 / 步骤感
+
+### HTML 成品模板
+- 顶部：课题、年级、课堂目标
+- 中部：核心内容分区
+- 互动：至少一个可展示的课堂动作
+- 收束：总结、回顾、教师提示
+- 如果是数学：把步骤和推导拆清楚
+- 如果是语文：把情境、文本和理解关系拉开
+- 如果是英语：把词汇、句型和情境对齐
 
 ## Subject and Lesson-Type Strategies
 ### 语文
@@ -137,6 +165,9 @@ Always follow this order:
 - 单文件模式：尽量把样式、脚本、内容收进一个文件
 - HTML + assets：主文件清楚引用外部资源，资源命名短而直观
 - 如果用户没选模式，按当前材料复杂度选择最稳的一种，并说明原因
+- 默认使用现代原生 HTML5 + CSS Grid/Flex + CSS 变量 + 少量原生 JavaScript 来实现轻交互
+- 交互优先用声明式、低耦合写法：卡片切换、折叠面板、步骤高亮、题目显隐、翻页等
+- 避免老式写法：不要写一堆直接操作 DOM 的脚本、不要依赖 jQuery、不要用过时的 table 布局去拼页面
 
 ## Quality Checks
 Before finalizing, check:
@@ -147,6 +178,10 @@ Before finalizing, check:
 - 是否内容过空、过挤、过于模板化
 - 是否误把参考 HTML 当成要照抄的模板
 - 是否少量追问后就停止，而不是反复问
+- 如果材料足够，是否已经直接进入大纲和 HTML
+- 是否按 16:9 课堂投屏比例组织版面
+- 字体是否适合远距离观看，且没有夸张到挤压内容
+- 是否避免超长滚动，页面是否更像分屏式课件
 
 ## Common Mistakes
 | Mistake | Fix |
@@ -160,3 +195,4 @@ Before finalizing, check:
 
 ## Reminder
 先把一课讲清楚，再把它做漂亮。课件不是模板拼接，而是把课堂逻辑翻成可展示的 HTML。
+
