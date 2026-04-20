@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML课件生成器"
+  short_description: "生成可投屏、可交互、可离线使用的小学课堂 HTML 课件"
+  default_prompt: "请根据本课主题生成一份可直接上课使用的 HTML 课件，支持 teaching 或 interactive 模式。"

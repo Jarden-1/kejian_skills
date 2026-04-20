@@ -1,0 +1,82 @@
+[
+  {
+    "query": "我是小学二年级数学老师，今天要把《认识乘法》这节课做成一个能直接上课的 HTML 课件。手头只有教案，你先帮我问最关键的少量问题，再给大纲和成品。",
+    "should_trigger": true
+  },
+  {
+    "query": "请把这份三年级语文教案《掌声》转成一课 HTML 课件，我还附了一页教材和一个参考网页，你别照抄结构，但要保持课堂展示感。",
+    "should_trigger": true
+  },
+  {
+    "query": "小学一年级英语课 classroom objects，想要单课 HTML 展示页，最好还能支持单文件和 html+assets 两种输出。",
+    "should_trigger": true
+  },
+  {
+    "query": "我这边只有一份小学数学教案，课题是分一分。你根据教案先推断课堂结构，先少量追问，再给课件大纲和最终 HTML。",
+    "should_trigger": true
+  },
+  {
+    "query": "帮我做一个小学语文阅读课的网页课件，要求是一课一做，先给大纲再给 HTML，风格不要像普通博客页。",
+    "should_trigger": true
+  },
+  {
+    "query": "二年级英语单课课件，主题是 food，老师只给了教案和几张词卡图片，想要更轻快一点的课堂展示页。",
+    "should_trigger": true
+  },
+  {
+    "query": "我想把小学数学《认识图形》做成 HTML 课件，最好能分成导入、讲解、练习、总结几个部分。",
+    "should_trigger": true
+  },
+  {
+    "query": "这是三年级语文识字课教案和教材页，请帮我生成一份可直接展示的单课 HTML 课件，别扩成整单元。",
+    "should_trigger": true
+  },
+  {
+    "query": "给你一份小学英语教案《At the zoo》和一个参考 html 样例，先根据材料补问，再输出课件大纲和最终页面。",
+    "should_trigger": true
+  },
+  {
+    "query": "我要做一个小学课堂展示用的 HTML 页面，学科是数学，主题是几个相同加数相加，视觉上要清楚分区。",
+    "should_trigger": true
+  },
+  {
+    "query": "帮我把这个 react 组件改成支持深色模式，页面里有一个课程列表和一个进度条。",
+    "should_trigger": false
+  },
+  {
+    "query": "我有一份 PDF 讲义，想提取其中的表格内容并导出成 CSV。",
+    "should_trigger": false
+  },
+  {
+    "query": "请给我做一个适合小学老师汇报用的 PPT 大纲，主题是课堂管理。",
+    "should_trigger": false
+  },
+  {
+    "query": "这是一张教材截图，帮我 OCR 出里面的文字然后翻译成英文。",
+    "should_trigger": false
+  },
+  {
+    "query": "我想把这个 web 页面重构成 next.js app，顺便加上登录功能。",
+    "should_trigger": false
+  },
+  {
+    "query": "小学数学老师今天想整理作业批改记录，能不能帮我设计一个表格模板？",
+    "should_trigger": false
+  },
+  {
+    "query": "帮我写一个导入学生名单的脚本，支持 xlsx 和 csv 两种格式。",
+    "should_trigger": false
+  },
+  {
+    "query": "我只是想找一份一年级英语单词表，顺便问下怎么打印出来更清楚。",
+    "should_trigger": false
+  },
+  {
+    "query": "把这段课堂录音转成文字，然后整理成会议纪要。",
+    "should_trigger": false
+  },
+  {
+    "query": "小学教案我已经写好了，但现在我想先看一下你怎么分析这份教案的教学目标，不用生成课件。",
+    "should_trigger": false
+  }
+]
